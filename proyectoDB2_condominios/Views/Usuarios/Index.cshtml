@@ -1,0 +1,86 @@
+﻿@{
+    ViewData["Title"] = "Usuarios";
+}
+
+@Html.Partial("AccesoUsuarios")
+
+<div class="table-responsive">
+    <table class="table caption-top table-sm">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Nombre Completo</th>
+                <th scope="col">Cédula</th>
+                <th scope="col">Correo Electrónico</th>
+                <th scope="col">Condominio</th>
+                <th scope="col">Rol</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var usuario in ViewBag.Usuarios)
+            {
+                <tr>
+                    @{
+                        <th>@usuario.idUsuario</th>
+                        <td>@String.Concat(usuario.nombre," ", usuario.primerApellido," ",usuario.segundoApellido)</td>
+                        <td>@usuario.cedula</td>
+                        <td>@usuario.email</td>
+
+                        if (String.IsNullOrEmpty(usuario.nombreCondominio))
+                        {
+                            <td>-</td>
+                        }
+                        else
+                        {
+                            <td>@usuario.nombreCondominio</td>
+                        }
+
+                        <td>@usuario.nombreRol</td>
+                    }
+                    <td class="actions">
+                        <button class="btn btn-primary btn-sm">
+                            <i class="bi bi-eye-fill"></i>
+                        </button>
+
+                        <button class="btn btn-warning btn-sm"
+                        onclick="window.location='@Url.Action("Editar", "Usuarios", new {idPersona=@usuario.idPersona})'">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                        @{
+                            if (@usuario.nombreRol != "Administrador")
+                            {
+                                <button class="btn btn-danger btn-sm" type="button" data-bs-toggle="modal"
+                            data-bs-target="#deleteModal">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+
+                                <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar Usuario</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                ¿Seguro que desea eliminar el usuario?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Cancelar</button>
+                                                <button type="button" class="btn btn-danger"
+                                            onclick="window.location= '@Url.Action("EliminarUsuario", "Usuarios", new {idPersona=@usuario.idPersona, idUsuario=@usuario.idUsuario})'">Eliminar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,51 @@
+﻿@{
+    ViewData["Title"] = "Editor de vehiculos";
+}
+
+@Html.Partial("AccesoUsuarios")
+
+<div class="container">
+    @foreach (var item in @ViewBag.vehiculo)
+    {
+    <form class="form" asp-controller="Vehiculos" asp-action="UpdateVehiculo" enctype="multipart/form-data">
+        <div style="border: 1px solid #d5d7dd; padding: 30px; border-radius: 15px;">
+            <div class="row">
+                    <input hidden="hidden" name="idVehiculo" value="@item.idVehiculo">
+                <div class="col-lg-9 col-md-8 col-sm-12">
+                    <div class="text-center">
+                        <h4>Creación de Vehiculos</h4>
+                        <hr>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-lg-4 col-md-12 col-sm-12">
+                            <label for="placa" class="form-label">Placa</label>
+                                <input type="text" value="@item.placa" class="form-control form-control-sm mb-2" name="placa" required />
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <label for="marca" class="form-label">Marca</label>
+                                <input type="text" value="@item.marca" class="form-control form-control-sm mb-2" name="marca" required />
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <label for="modelo" class="form-label">Modelo</label>
+                                <input type="text" value="@item.modelo" class="form-control form-control-sm mb-2" name="modelo" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <label for="color" class="form-label">Color</label>
+                            <input type="text" value="@item.color" class="form-control form-control-sm mb-2" name="color" required />
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group float-end">
+                        <div class="col-12">
+                            <button class="btn btn-white" type="reset">Limpiar</button>
+                            <button class="btn btn-success" type="submit">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    }
+</div>

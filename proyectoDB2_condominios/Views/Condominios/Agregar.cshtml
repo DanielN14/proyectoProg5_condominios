@@ -1,0 +1,73 @@
+﻿@{
+    ViewData["Title"] = "Agregar Condominio";
+}
+
+@Html.Partial("AccesoUsuarios")
+
+<div class="container">
+    <form class="form" asp-controller="Condominios" asp-action="AgregarCondominio" enctype="multipart/form-data">
+        <div style="border: 1px solid #d5d7dd; padding: 30px; border-radius: 15px;">
+            <div class="row">
+                <div class="col-lg-3 col-md-4 col-sm-12">
+                    <div class="container-profile">
+                        <div class="avatar-upload">
+                            <div class="avatar-edit">
+                                <input type='file' id="inputPhoto" name="inputPhoto" accept=".png, .jpg, .jpeg" />
+                                <label for="inputPhoto"></label>
+                            </div>
+                            <div class="avatar-preview">
+                                <div id="imagePreview"
+                                    style="background-image: url(/images/fotos_condominios/defaultCondominio.png);">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-9 col-md-8 col-sm-12">
+                    <div class="text-center">
+                        <h4>Creación de condominios</h4>
+                        <hr>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-12 col-sm-12">
+                            <label for="codigo" class="form-label">Código</label>
+                            <input type="text" class="form-control form-control-sm mb-2" name="codigo" required />
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <label for="nombre" class="form-label">Nombre Condominio</label>
+                            <input type="text" class="form-control form-control-sm mb-2" name="nombre" required />
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <label for="direccion" class="form-label">Dirección</label>
+                            <input type="text" class="form-control form-control-sm mb-2" name="direccion" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <label for="telefonoOficina" class="form-label">Telefono</label>
+                            <input type="text" class="form-control form-control-sm mb-2" name="telefonoOficina"
+                                required />
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <label for="selectNumViviendas" class="form-label">Viviendas</label>
+                            <select class="form-select form-select-sm mb-2" name="selectNumViviendas" required>
+                                <option selected value="0">0</option>
+                                @for (int i = 5; i <= 20; i++)
+                                {
+                                    <option value="@i">@i</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group float-end">
+                        <div class="col-12">
+                            <button class="btn btn-white" type="reset">Limpiar</button>
+                            <button class="btn btn-success" type="submit">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

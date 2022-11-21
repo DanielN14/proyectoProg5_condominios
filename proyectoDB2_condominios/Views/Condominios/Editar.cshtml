@@ -1,0 +1,140 @@
+﻿@{
+    ViewData["Title"] = "Editar Condominio";
+}
+@Html.Partial("AccesoUsuarios")
+
+<div class="container">
+    <div class="row">
+        <form class="form" asp-controller="Condominios" asp-action="UpdateCondominio" enctype="multipart/form-data">
+            <div>
+                <input hidden="hidden" name="idProyectoHabitacional" value="@ViewBag.condominio.idProyectoHabitacional">
+                <div class="row">
+                    <div class="col-lg-3 col-md-4 col-sm-12">
+                        <div class="container-profile">
+                            <div class="avatar-upload">
+                                <div class="avatar-edit">
+                                    <input type='file' id="inputPhoto" name="inputPhoto" accept=".png, .jpg, .jpeg" />
+                                    <label for="inputPhoto"></label>
+                                </div>
+                                <div class="avatar-preview">
+                                    <div id="imagePreview" style="background-image: url(@ViewBag.condominio.logo);">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-9 col-md-8 col-sm-12">
+                        <div class="text-center">
+                            <h4>Editar condominio</h4>
+                            <hr>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6 col-sm-12">
+                                <label for="nombre" class="form-label">Nombre Condominio:</label>
+                                <input type="text" value="@ViewBag.condominio.nombre"
+                                    class="form-control form-control-sm mb-2" name="nombre" required />
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-12">
+                                <label for="direccion" class="form-label">Dirección:</label>
+                                <input type="text" value="@ViewBag.condominio.direccion"
+                                    class="form-control form-control-sm mb-2" name="direccion" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-5 col-md-4 col-sm-12">
+                                <label for="telefonoOficina" class="form-label">Telefono:</label>
+                                <input type="text" value="@ViewBag.condominio.telefonoOficina"
+                                    class="form-control form-control-sm mb-2" name="telefonoOficina" required />
+                            </div>
+                        </div>
+                        <br>
+                        <div class="form-group float-end">
+                            <div class="col-12">
+                                <button class="btn btn-white" type="reset">Limpiar</button>
+                                <button class="btn btn-success" type="submit">Guardar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row mt-4 p-3">
+        <h4>Viviendas</h4>
+        <hr>
+        <div class="table-responsive">
+            <table class="table caption-top table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Número de vivienda</th>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Número de habitaciones</th>
+                        <th scope="col">Cocheras</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var vivienda in ViewBag.viviendas)
+                    {
+                        <tr>
+                            @{
+                                <th>@vivienda.idVivienda</th>
+                                <td>@vivienda.numeroVivienda</td>
+                                <td>@vivienda.descripcion</td>
+                                <td>@vivienda.numeroHabitaciones</td>
+                                <td>@vivienda.cochera</td>
+
+                                if (@vivienda.idPersona == 0)
+                                {
+                                    <td>Desocupada</td>
+                                }
+                                else
+                                {
+                                    <td>Ocupada</td>
+                                }
+                            }
+                            <td class="actions">
+                                <button class="btn btn-primary btn-sm">
+                                    <i class="bi bi-eye-fill"></i>
+                                </button>
+
+                                <button class="btn btn-warning btn-sm"
+                                onclick="window.location='@Url.Action("Editar", "Viviendas", new {idVivienda=@vivienda.idVivienda})'">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button class="btn btn-danger btn-sm" type="button" data-bs-toggle="modal"
+                                data-bs-target="#deleteModal">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+
+                                <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar Vivienda</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                ¿Seguro que desea eliminar la vivienda?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Cancelar</button>
+                                                <button type="button" class="btn btn-danger"
+                                                onclick="window.location= '@Url.Action("EliminarVivienda", "Viviendas", new {idVivienda=@vivienda.idVivienda})'">Eliminar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

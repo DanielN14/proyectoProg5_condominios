@@ -1,0 +1,60 @@
+﻿@{
+    ViewData["Title"] = "Editor de Viviendas";
+}
+@Html.Partial("AccesoUsuarios")
+
+<div class="container">
+    @foreach (var item in ViewBag.viviendas) { 
+        <form class="form" asp-controller="Viviendas" asp-action="UpdateVivienda" enctype="multipart/form-data">
+        <div style="border: 1px solid #d5d7dd; padding: 30px; border-radius: 15px;">
+            <div class="row">
+                    <input hidden="hidden" name="idVivienda" value="@item.idVivienda">
+                <div class="col-lg-9 col-md-8 col-sm-12">
+                    <div class="text-center">
+                        <h4>Editor de Viviendas</h4>
+                        <hr>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-lg-4 col-md-12 col-sm-12">
+                                <label for="numeroVivienda" class="form-label">Numero de Vivienda</label>
+                                <input type="text" value="@item.numeroVivienda" class="form-control form-control-sm mb-2" name="numeroVivienda" required />
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                <label for="descripcion" class="form-label">Descripcion</label>
+                                <input type="text" value="@item.descripcion" class="form-control form-control-sm mb-2" name="descripcion" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                <label for="numeroHabitaciones" class="form-label">Numero de Habitaciones</label>
+                                <input type="text" value="@item.numeroHabitaciones" class="form-control form-control-sm mb-2" name="numeroHabitaciones" required />
+                        </div>
+                         <div class="col-lg-4 col-md-6 col-sm-12">
+                                <label for="cochera" class="form-label">Cocheras</label>
+                                <input type="text" value="@item.cochera" class="form-control form-control-sm mb-2" name="cochera" required />
+                         </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <label for="selectRol" class="form-label">Condomino</label>
+                            <select class="form-select form-select-sm mb-2" name="SelectUser" required>
+                            <option selected disabled value="">Seleccione un condomino</option>
+                            @foreach (var item1 in ViewBag.usuariosDD)
+                            {
+                                <option value="@item1.idPersona">@item1.nombre</option>
+                            }
+                        </select>
+                    </div>
+                    <br>
+                    <div class="form-group float-end">
+                        <div class="col-12">
+
+                            <button class="btn btn-white" type="reset">Limpiar</button>
+                            <button class="btn btn-success" type="submit">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    }
+</div>

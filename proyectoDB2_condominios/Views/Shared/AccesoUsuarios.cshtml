@@ -1,0 +1,18 @@
+﻿<script>
+    var api = new XMLHttpRequest();
+    api.open("GET", "/Home/ObtenerPaginas/" + @ViewBag.usuario.idRolUsuario);
+    api.send();
+
+    api.onreadystatechange = function () {
+        if (this.status == 200 && this.readyState == 4) {
+
+            debugger;
+
+            let data = JSON.parse(this.responseText);
+
+            data.forEach((item) => {
+                document.getElementById(item.pagina).removeAttribute("hidden");
+            });
+        }
+    }
+</script>

@@ -1,0 +1,74 @@
+﻿@{
+    ViewData["Title"] = "Usuarios";
+}
+@Html.Partial("AccesoUsuarios")
+
+<div class="table-responsive">
+    <table class="table caption-top table-sm">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Placa</th>
+                <th scope="col">Marca</th>
+                <th scope="col">Modelo</th>
+                <th scope="col">Color</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewBag.Vehiculos)
+            {
+                <tr>
+                    @{
+                        <th>@item.idVehiculo</th>
+                        if (String.IsNullOrEmpty(@item.placa))
+                        {
+                            <td>-</td>
+                        }
+                        else
+                        {
+                            <td>@item.placa</td>
+                        }
+
+                        if (String.IsNullOrEmpty(@item.marca))
+                        {
+                            <td>-</td>
+                        }
+                        else
+                        {
+                            <td>@item.marca</td>
+                        }
+
+                        if (String.IsNullOrEmpty(@item.modelo))
+                        {
+                            <td>-</td>
+                        }
+                        else
+                        {
+                            <td>@item.modelo</td>
+                        }
+                        if (String.IsNullOrEmpty(@item.color))
+                        {
+                            <td>-</td>
+                        }
+                        else
+                        {
+                            <td>@item.color</td>
+                        }
+
+                    }
+                    <td class="actions ">
+                        <button class="btn btn-warning btn-sm"
+                            onclick="window.location='@Url.Action("Editar", "Vehiculos", new {idVehiculo=@item.idVehiculo})'">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                        <button class="btn btn-danger btn-sm"
+                            onclick="window.location= '@Url.Action("EliminarVehiculo", "Vehiculos", new {idVehiculo=@item.idVehiculo})'">
+                            <i class="bi bi-trash-fill"></i>
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
