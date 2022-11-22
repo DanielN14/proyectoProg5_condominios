@@ -216,11 +216,10 @@ namespace proyectoDB2_condominios.Controllers
             return RedirectToAction("Index", "Usuarios");
         }
         
-        public ActionResult EliminarUsuario(int idPersona, int idUsuario )
+        public ActionResult EliminarUsuario(int idUsuario)
         {
             List<SqlParameter> param = new List<SqlParameter>()
             {
-                new SqlParameter("@idPersona", idPersona),
                  new SqlParameter("@idUsuario", idUsuario)
             };
 

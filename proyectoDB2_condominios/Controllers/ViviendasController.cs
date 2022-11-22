@@ -43,14 +43,14 @@ namespace proyectoDB2_condominios.Controllers
             return viviendasList;
         }
 
-        public ActionResult EliminarVivienda(int idVivienda)
+        public ActionResult EliminarVivienda(int idVivienda, int idProyectoHabitacional)
         {
             DatabaseHelper.ExecStoreProcedure("SP_EliminarVivienda", new List<SqlParameter>()
             {
                 new SqlParameter("@idVivienda", idVivienda)
             });
 
-            return RedirectToAction("Index", "Viviendas");
+            return RedirectToAction("Editar", "Condominios", new{idProyectoHabitacional=idProyectoHabitacional});
         }
 
         public ActionResult Agregar()

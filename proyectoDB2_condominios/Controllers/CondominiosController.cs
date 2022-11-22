@@ -64,6 +64,7 @@ namespace proyectoDB2_condominios.Controllers
                 codigo = ds.Rows[0]["codigo"].ToString(),
                 nombre = ds.Rows[0]["nombre"].ToString(),
                 direccion = ds.Rows[0]["direccion"].ToString(),
+                telefonoOficina = ds.Rows[0]["telefonoOficina"].ToString(),
             };
 
             return condominio;
