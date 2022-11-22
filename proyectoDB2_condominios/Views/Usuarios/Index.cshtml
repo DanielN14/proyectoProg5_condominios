@@ -2,7 +2,7 @@
     ViewData["Title"] = "Usuarios";
 }
 
-@Html.Partial("AccesoUsuarios")
+@await Html.PartialAsync("AccesoUsuarios")
 
 <div class="table-responsive">
     <table class="table caption-top table-sm">
@@ -51,31 +51,9 @@
                             if (@usuario.nombreRol != "Administrador")
                             {
                                 <button class="btn btn-danger btn-sm" type="button" data-bs-toggle="modal"
-                            data-bs-target="#deleteModal">
+                            data-bs-target="#deleteModal" onClick="getValue(@usuario.idUsuario)">
                                     <i class="bi bi-trash-fill"></i>
                                 </button>
-
-                                <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                            aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar Usuario</h1>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                ¿Seguro que desea eliminar el usuario?
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">Cancelar</button>
-                                                <button type="button" class="btn btn-danger"
-                                            onclick="window.location= '@Url.Action("EliminarUsuario", "Usuarios", new {idPersona=@usuario.idPersona, idUsuario=@usuario.idUsuario})'">Eliminar</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             }
                         }
                     </td>
@@ -84,3 +62,34 @@
         </tbody>
     </table>
 </div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar Usuario</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ¿Seguro que desea eliminar el usuario?
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" id="idDelete" value="">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" onclick="deleteElement()">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function getValue(idElemento) {
+        $("#idDelete").val(idElemento);
+    }
+
+    function deleteElement() {
+        var value = $("#idDelete").val();
+        let url = '/Usuarios/EliminarUsuario?idUsuario=' + value;
+        location.href = url;
+    }
+</script>

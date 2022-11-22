@@ -1,7 +1,8 @@
 ﻿@{
     ViewData["Title"] = "Usuarios";
 }
-@Html.Partial("AccesoUsuarios")
+
+@await Html.PartialAsync("AccesoUsuarios")
 
 <div class="table-responsive">
     <table class="table caption-top table-sm">

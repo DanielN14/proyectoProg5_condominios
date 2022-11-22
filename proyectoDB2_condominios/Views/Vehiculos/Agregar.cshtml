@@ -1,7 +1,8 @@
 ﻿@{
     ViewData["Title"] = "Registro de vehiculos";
 }
-@Html.Partial("AccesoUsuarios")
+
+@await Html.PartialAsync("AccesoUsuarios")
 
 <div class="container">
     <form class="form" asp-controller="Vehiculos" asp-action="AgregarVehiculo" enctype="multipart/form-data">

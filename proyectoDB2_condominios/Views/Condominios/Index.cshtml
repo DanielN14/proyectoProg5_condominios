@@ -1,12 +1,13 @@
 ﻿@{
     ViewData["Title"] = "Condominios";
 }
-@Html.Partial("AccesoUsuarios")
+
+@await Html.PartialAsync("AccesoUsuarios")
 
 <div class="container d-flex justify-content-center">
     @foreach (var item in ViewBag.Condominios)
     {
-            <div class="card align-items-center" style="width: 13rem; margin-right:10px">
+        <div class="card align-items-center" style="width: 13rem; margin-right:10px">
             <img src="@item.logo" class="card-img-top" style="width:120px; height:120px; margin-top:10px">
             <div class="card-body align-items-center">
                 <h4 class="card-title">@item.nombre</h4>
@@ -21,15 +22,37 @@
                     onclick="window.location='@Url.Action("Editar", "Condominios", new {idProyectoHabitacional=@item.idProyectoHabitacional})'">
                         <i class="bi bi-pencil"></i>
                     </button>
-                    <button class="btn btn-danger btn-sm"
-                    onclick="window.location= '@Url.Action( "EliminarCondominio", "Condominios",new {idProyectoHabitacional=@item.idProyectoHabitacional})'">
+
+                    <button class="btn btn-danger btn-sm" type="button" data-bs-toggle="modal"
+                    data-bs-target="#deleteModal">
                         <i class="bi bi-trash-fill"></i>
                     </button>
+
+                    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar Condominio</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    ¿Seguro que desea eliminar el condominio?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="button" class="btn btn-danger" onclick="window.location= '@Url.Action( "EliminarCondominio", "Condominios",new {idProyectoHabitacional=@item.idProyectoHabitacional})'">Eliminar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
     }
 </div>
+
 <div class="container d-flex justify-content-center align-items-center">
     <a href="@Url.Action("Agregar", "Condominios")">
         <img src="Iconos\Agregar.png" style="width:50px; height:50px; margin-top:10px" />

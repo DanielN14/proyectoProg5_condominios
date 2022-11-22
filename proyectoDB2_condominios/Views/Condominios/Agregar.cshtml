@@ -2,7 +2,7 @@
     ViewData["Title"] = "Agregar Condominio";
 }
 
-@Html.Partial("AccesoUsuarios")
+@await Html.PartialAsync("AccesoUsuarios")
 
 <div class="container">
     <form class="form" asp-controller="Condominios" asp-action="AgregarCondominio" enctype="multipart/form-data">

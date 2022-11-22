@@ -1,7 +1,8 @@
-﻿
-@{ ViewData["Title"] = "Home Page";
+﻿@{ 
+    ViewData["Title"] = "Home Page";
 }
-@Html.Partial("AccesoUsuarios")
+
+@await Html.PartialAsync("AccesoUsuarios")
 
     @ViewBag.usuario.idRolUsuario
     <p>Inicio de sesion de manera Correcta</p>

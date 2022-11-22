@@ -2,7 +2,7 @@
     ViewData["Title"] = "Editor de vehiculos";
 }
 
-@Html.Partial("AccesoUsuarios")
+@await Html.PartialAsync("AccesoUsuarios")
 
 <div class="container">
     @foreach (var item in @ViewBag.vehiculo)

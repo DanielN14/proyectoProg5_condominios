@@ -1,7 +1,8 @@
 ﻿@{
     ViewData["Title"] = "Registro de usuarios";
 }
-@Html.Partial("AccesoUsuarios")
+
+@await Html.PartialAsync("AccesoUsuarios")
 
 <div class="container">
     <form class="form" asp-controller="Usuarios" asp-action="AgregarUsuario" enctype="multipart/form-data">
