@@ -136,6 +136,42 @@ namespace proyectoDB2_condominios.Controllers
                     new SqlParameter("@pIdProyectoHabitacional", selectCondominio),
                 }
             );
+            
+            // ENVIAR EMAIL DE CONFIRMACION
+            /*ktvnsukeryuvfzla*/
+            
+            var emailOwner = "testmm311@gmail.com";
+            var emailPassword = "ktvnsukeryuvfzla";
+
+            using (MailMessage mm = new MailMessage(emailOwner, txtEmail))
+            {
+                mm.Subject = "Confirmaci�n de cuenta";
+                
+                mm.IsBodyHtml = true;
+
+                
+                using (var sr = new StreamReader("wwwroot/html/welcome.txt"))
+                {
+                    // Read the stream as a string, and write the string to the console.
+                    string body = sr.ReadToEnd()
+                        .Replace("@CLIENTNAME", txtNombre)
+                        .Replace("@ClientPassword",txtPassword)
+                        .Replace("@ClientEmail",txtEmail);
+
+                    mm.Body = body;
+                }
+
+                SmtpClient smtp = new SmtpClient();
+                smtp.Host = "smtp.gmail.com";
+                smtp.EnableSsl = true;
+                NetworkCredential NetworkCred = new NetworkCredential(emailOwner, emailPassword);
+                smtp.UseDefaultCredentials = false;
+                smtp.Credentials = NetworkCred;
+                smtp.Port = 587;
+                smtp.Send(mm);
+            }
+            
+            // FIN EMAL CONFIRMATION
 
             return RedirectToAction("Index", "Usuarios");
         }
