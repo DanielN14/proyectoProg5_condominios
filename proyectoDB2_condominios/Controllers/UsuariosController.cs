@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using proyecto_condominios.DatabaseHelper;
 using proyectoDB2_condominios.Models;
 using Newtonsoft.Json;
+using System.Net;
+using System.Net.Mail;
 
 namespace proyectoDB2_condominios.Controllers
 {
