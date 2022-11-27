@@ -4,14 +4,9 @@ using proyectoDB2_condominios.Models;
 using System.Data.SqlClient;
 using System.Data;
 using System.Diagnostics;
-using System.Text.Json;
+using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace proyectoDB2_condominios.Controllers
 {
@@ -28,7 +23,7 @@ namespace proyectoDB2_condominios.Controllers
         {
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString("usuario")))
             {
-                ViewBag.usuario = JsonSerializer.Deserialize<Usuario>(HttpContext.Session.GetString("usuario"));
+                ViewBag.usuario = JsonConvert.DeserializeObject<Usuario>(HttpContext.Session.GetString("usuario"));
 
                 return View();
             }

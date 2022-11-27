@@ -1,9 +1,9 @@
 using System.Data;
 using System.Data.SqlClient;
-using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using proyecto_condominios.DatabaseHelper;
 using proyectoDB2_condominios.Models;
+using Newtonsoft.Json;
 
 namespace proyectoDB2_condominios.Controllers
 {
@@ -11,7 +11,7 @@ namespace proyectoDB2_condominios.Controllers
     {
         public IActionResult Index()
         {
-            ViewBag.usuario = JsonSerializer.Deserialize<Usuario>(HttpContext.Session.GetString("usuario"));
+            ViewBag.usuario = JsonConvert.DeserializeObject<Usuario>(HttpContext.Session.GetString("usuario"));
             ViewBag.Usuarios = CargarUsuarios();
             return View();
         }
@@ -39,7 +39,7 @@ namespace proyectoDB2_condominios.Controllers
                         nombreCondominio = row["nombreCondominio"].ToString(),
                         idPersona = Convert.ToInt32(row["idPersona"]),
                     }
-                    
+
                 );
             }
 
@@ -48,7 +48,7 @@ namespace proyectoDB2_condominios.Controllers
 
         public IActionResult Agregar()
         {
-            ViewBag.usuario = JsonSerializer.Deserialize<Usuario>(HttpContext.Session.GetString("usuario"));
+            ViewBag.usuario = JsonConvert.DeserializeObject(HttpContext.Session.GetString("usuario"));
             ViewBag.rolesUsuarios = CargarRolesUsuarios();
             ViewBag.condominios = CargarCondominios();
             return View();
@@ -92,9 +92,9 @@ namespace proyectoDB2_condominios.Controllers
             return listadoCondominios;
         }
 
-        public IActionResult AgregarUsuario(string txtNombre, string txtPApellido, string txtSApellido, 
+        public IActionResult AgregarUsuario(string txtNombre, string txtPApellido, string txtSApellido,
             string txtCedula, IFormFile inputPhoto, string txtEmail, string txtPassword, string selectRol,
-            string selectCondominio
+            string selectCondominio, string selectViviendas
         )
         {
             string photoPath;
@@ -134,6 +134,7 @@ namespace proyectoDB2_condominios.Controllers
                     new SqlParameter("@pPassword", txtPassword),
                     new SqlParameter("@pIdRolUsuario", selectRol),
                     new SqlParameter("@pIdProyectoHabitacional", selectCondominio),
+                    new SqlParameter("@pIdVivienda", selectViviendas)
                 }
             );
 
@@ -141,12 +142,12 @@ namespace proyectoDB2_condominios.Controllers
         }
         public ActionResult Editar(int idPersona)
         {
-            ViewBag.usuario = JsonSerializer.Deserialize<Usuario>(HttpContext.Session.GetString("usuario"));
+            ViewBag.usuario = JsonConvert.DeserializeObject(HttpContext.Session.GetString("usuario"));
             ViewBag.rolesUsuarios = CargarRolesUsuarios();
             ViewBag.usuario = CargarUsuario(idPersona);
             return View();
         }
-        
+
         private Usuario CargarUsuario(int idPersona)
         {
             List<SqlParameter> param = new List<SqlParameter>()
@@ -155,7 +156,8 @@ namespace proyectoDB2_condominios.Controllers
             };
             DataTable ds = DatabaseHelper.ExecuteStoreProcedure("SP_ObtenerUsuario", param);
 
-            Usuario usuario = new Usuario(){
+            Usuario usuario = new Usuario()
+            {
                 idPersona = Convert.ToInt32(ds.Rows[0]["idPersona"]),
                 nombre = ds.Rows[0]["nombre"].ToString(),
                 primerApellido = ds.Rows[0]["primerApellido"].ToString(),
@@ -168,13 +170,13 @@ namespace proyectoDB2_condominios.Controllers
                 idRolUsuario = Convert.ToInt32(ds.Rows[0]["idRolUsuario"]),
                 idUsuario = Convert.ToInt32(ds.Rows[0]["idUsuario"]),
             };
- 
+
             return usuario;
         }
-        
-        public ActionResult UpdateUsuario(int idPersona, int idUsuario, string txtNombre, 
-            string txtPApellido, string txtSApellido, string txtCedula, IFormFile inputPhoto, 
-            string txtEmail,string txtPassword, string selectRol)
+
+        public ActionResult UpdateUsuario(int idPersona, int idUsuario, string txtNombre,
+            string txtPApellido, string txtSApellido, string txtCedula, IFormFile inputPhoto,
+            string txtEmail, string txtPassword, string selectRol)
         {
 
             string? photoPath = null;
@@ -205,7 +207,7 @@ namespace proyectoDB2_condominios.Controllers
                     new SqlParameter("@PrimerApellido", txtPApellido),
                     new SqlParameter("@SegundoApellido", txtSApellido),
                     new SqlParameter("@Cedula", txtCedula),
-                    new SqlParameter("@Foto", photoPath), 
+                    new SqlParameter("@Foto", photoPath),
                     new SqlParameter("@Email", txtEmail),
                     new SqlParameter("@Password", txtPassword),
                     new SqlParameter("@IdRolUsuario", selectRol),
@@ -215,7 +217,7 @@ namespace proyectoDB2_condominios.Controllers
 
             return RedirectToAction("Index", "Usuarios");
         }
-        
+
         public ActionResult EliminarUsuario(int idUsuario)
         {
             List<SqlParameter> param = new List<SqlParameter>()
@@ -226,6 +228,35 @@ namespace proyectoDB2_condominios.Controllers
             DatabaseHelper.ExecStoreProcedure("SP_EliminarUsuario", param);
 
             return RedirectToAction("Index", "Usuarios");
+        }
+
+        public List<Vivienda> CargarViviendasDD(int idProyectoHabitacional)
+        {
+            List<SqlParameter> param = new List<SqlParameter>()
+            {
+         new SqlParameter("@idProyectoHabitacional", idProyectoHabitacional)
+   };
+
+            DataTable ds = DatabaseHelper.ExecuteStoreProcedure("SP_ObtenerViviendasDD", param);
+            List<Vivienda> viviendasList = new List<Vivienda>();
+
+            foreach (DataRow row in ds.Rows)
+            {
+                viviendasList.Add(new Vivienda()
+                {
+                    idVivienda = Convert.ToInt32(row["idVivienda"]),
+                    numeroVivienda = row["numeroVivienda"].ToString(),
+                    descripcion = row["descripcion"].ToString(),
+                });
+            }
+
+            return viviendasList;
+        }
+
+        [HttpGet]
+        public JsonResult GetViviendas(int pidProyectoHabitacional)
+        {
+            return Json(CargarViviendasDD(pidProyectoHabitacional));
         }
     }
 }

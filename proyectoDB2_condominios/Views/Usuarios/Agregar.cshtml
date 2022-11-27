@@ -70,12 +70,20 @@
                         </div>
                         <div class="col-lg-4 col-md-12 col-sm-12">
                             <label for="selectCondominio" class="form-label">Condominio</label>
-                            <select class="form-select form-select-sm mb-2" name="selectCondominio">
+                            <select class="form-select form-select-sm mb-2" id="selectCondominio"
+                                name="selectCondominio" onchange="actualizarViviendas(this.value)">
                                 <option selected disabled value="">Seleccione un condominio</option>
                                 @foreach (var condominio in ViewBag.condominios)
                                 {
                                     <option value="@condominio.idProyectoHabitacional">@condominio.nombre</option>
                                 }
+                            </select>
+                        </div>
+                        <div class="col-lg-4 col-md-12 col-sm-12">
+                            <label for="selectViviendas" class="form-label">Vivienda</label>
+                            <select id="selectViviendas" class="form-select form-select-sm mb-2" name="selectViviendas">
+                                <option selected disabled value="">Seleccione una vivienda</option>
+                                <option value=""></option>
                             </select>
                         </div>
                     </div>
@@ -91,3 +99,20 @@
         </div>
     </form>
 </div>
+
+<script type="text/javascript">
+    const actualizarViviendas = async (id) => {
+        let data = await fetch("/Usuarios/GetViviendas?pidProyectoHabitacional=" + id);
+
+        const result = await data.json();
+
+        selectViviendas = document.getElementById("selectViviendas");
+
+        $("#selectViviendas").empty();
+        $('#selectViviendas').html('<option value="">Seleccione una vivienda</option>');
+
+        result.forEach(vivienda => {
+            $('#selectViviendas').append(`<option value="${vivienda.idVivienda}">${vivienda.descripcion}</option>`);
+        })
+    }
+</script>

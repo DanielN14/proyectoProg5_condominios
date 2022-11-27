@@ -3,8 +3,8 @@ using proyecto_condominios.DatabaseHelper;
 using proyectoDB2_condominios.Models;
 using System.Data;
 using System.Data.SqlClient;
-using System.Text.Json;
 using proyectoDB2_condominios.Controllers;
+using Newtonsoft.Json;
 
 namespace proyectoDB2_condominios.Controllers
 {
@@ -12,7 +12,7 @@ namespace proyectoDB2_condominios.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.usuario = JsonSerializer.Deserialize<Usuario>(HttpContext.Session.GetString("usuario"));
+            ViewBag.usuario = JsonConvert.DeserializeObject<Usuario>(HttpContext.Session.GetString("usuario"));
             ViewBag.Condominios = CargarCondominios();
             return View();
         }
@@ -41,7 +41,7 @@ namespace proyectoDB2_condominios.Controllers
 
         public ActionResult Editar(int idProyectoHabitacional)
         {
-            ViewBag.usuario = JsonSerializer.Deserialize<Usuario>(HttpContext.Session.GetString("usuario"));
+            ViewBag.usuario = JsonConvert.DeserializeObject<Usuario>(HttpContext.Session.GetString("usuario"));
             ViewBag.condominio = CargarCondominio(idProyectoHabitacional);
             ViewBag.viviendas = ViviendasController.CargarViviendas(idProyectoHabitacional);
 
@@ -121,7 +121,7 @@ namespace proyectoDB2_condominios.Controllers
 
         public ActionResult Agregar()
         {
-            ViewBag.usuario = JsonSerializer.Deserialize<Usuario>(HttpContext.Session.GetString("usuario"));
+            ViewBag.usuario = JsonConvert.DeserializeObject<Usuario>(HttpContext.Session.GetString("usuario"));
             return View();
         }
 

@@ -15,5 +15,6 @@
         public int? idPersona { get; set; }
         public int? idProyectoHabitacional { get; set; }
         public string? nombreCondominio { get; set; }
+        public int? idVivienda { get; set; }
     }
 }

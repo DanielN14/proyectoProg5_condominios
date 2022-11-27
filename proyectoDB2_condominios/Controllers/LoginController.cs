@@ -4,9 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using proyecto_condominios.DatabaseHelper;
 using System.Data.SqlClient;
 using System.Data;
-using System.Text.Json;
 using System.Collections.Generic;
 using proyectoDB2_condominios.Models;
+using Newtonsoft.Json;
+
 
 namespace proyectoDB2_condominios.Controllers
 {
@@ -23,7 +24,7 @@ namespace proyectoDB2_condominios.Controllers
 
             if (usuario != null)
             {
-                HttpContext.Session.SetString("usuario", JsonSerializer.Serialize(usuario));
+                HttpContext.Session.SetString("usuario", JsonConvert.SerializeObject(usuario));
                 return RedirectToAction("Index", "Home");
             }
             else
