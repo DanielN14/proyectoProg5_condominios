@@ -1,0 +1,33 @@
+@{
+    ViewData["Title"] = "Agregar Visitas";
+}
+
+
+<h1>Agregar Visitas</h1>
+
+
+<form asp-action="Crear">
+    <div style="width: 50%;">
+        <div class="mb-3">
+            <label for="txtNombre" class="form-label">Nombre del visitante</label>
+            <input type="text" class="form-control" name="txtNombre" required />
+        </div>
+        <div class="mb-3">
+            <label for="txtPrimerApellido" class="form-label">Primer apellido del visitante</label>
+            <input type="text" class="form-control" name="txtPrimerApellido" required />
+        </div>
+        <div class="mb-3">
+            <label for="txtSegundoApellido" class="form-label">Segundo apellido del visitante</label>
+            <input type="text" class="form-control" name="txtSegundoApellido" required />
+        </div>
+        <div class="mb-3">
+            <label for="txtCedula" class="form-label">Cedula</label>
+            <input type="text" class="form-control" name="txtCedula" required />
+        </div>
+
+        <button class="btn btn-primary">Agregar</button>
+        <a class="btn btn-secondary" asp-action="Index">Cancelar</a>
+    </div>
+    
+
+</form>
