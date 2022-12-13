@@ -7,18 +7,10 @@ using System.Diagnostics;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
 
-
 namespace proyectoDB2_condominios.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
-
         public IActionResult Index()
         {
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString("usuario")))
@@ -29,7 +21,7 @@ namespace proyectoDB2_condominios.Controllers
             }
             else
             {
-                ViewBag.Error = new Models.Error()
+                ViewBag.Error = new Error()
                 {
                     Message = "You must LogIn first",
                     BackUrl = "Login",

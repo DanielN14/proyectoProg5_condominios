@@ -1,0 +1,24 @@
+﻿@{
+    ViewData["Title"] = "AgregarQR";
+}
+@await Html.PartialAsync("AccesoUsuarios")
+
+@if (ViewBag.QRCodeImage != null)
+{
+    <div style="display:flex; justify-content: center;">
+        <div>
+            <div class="alert alert-success alert-dismissible fade show mb-3" role="alert">
+                Tú código QR se generó correctamente
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <div>
+                <h3 style="text-align: center;">El código es: @ViewBag.numero</h3>
+                <img src="@ViewBag.QRCodeImage" alt="Booking QR Code" style="width: 250px; height: 250px; display: block; margin: 0px auto">
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="alert alert-danger">El código QR no se generó correctamente</div>
+}

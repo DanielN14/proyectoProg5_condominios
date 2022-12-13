@@ -1,0 +1,67 @@
+﻿@{
+    ViewData["Title"] = "Registro de visitantes";
+}
+@await Html.PartialAsync("AccesoUsuarios")
+
+<div class="container">
+    <form class="form" asp-controller="Visitantes" asp-action="AgregarVisitante" enctype="multipart/form-data">
+        <div style="border: 1px solid #d5d7dd; padding: 30px; border-radius: 15px;">
+            <div class="row">
+                <div class="col-lg-9 col-md-8 col-sm-12">
+                    <div class="text-center">
+                        <h4>Creación de visitantes</h4>
+                        <hr>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-12 col-sm-12">
+                            <label for="txtNombre" class="form-label">Nombre</label>
+                            <input type="text" class="form-control form-control-sm mb-2" name="nombre" required />
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <label for="txtPApellido" class="form-label">Primer Apellido</label>
+                            <input type="text" class="form-control form-control-sm mb-2" name="primerApellido" required />
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <label for="txtSApellido" class="form-label">Segundo Apellido</label>
+                            <input type="text" class="form-control form-control-sm mb-2" name="segundoApellido" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <label for="txtCedula" class="form-label">Cédula</label>
+                            <input type="text" class="form-control form-control-sm mb-2" name="cedula" required />
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-12 align-self-center mb-4">
+                            <div class="form-check form-switch">
+                                <label class="form-check-label" for="switchfavorito">Agregar a favoritos.</label>
+                                <input class="form-check-input" type="checkbox" role="switch" name="switchfavorito"
+                                       id="switchfavorito" value="0">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <br>
+                    <div class="form-group float-end">
+                        <div class="col-12">
+                            <button class="btn btn-white" type="reset">Limpiar</button>
+                            <button class="btn btn-success" type="submit">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts
+    {
+    <script type="text/javascript">
+        $("#switchfavorito").change(function () {
+            if ($(this).prop("checked")) {
+                $(this).val(1);
+            } else {
+                $(this).val(0);
+            }
+        });
+    </script>
+}

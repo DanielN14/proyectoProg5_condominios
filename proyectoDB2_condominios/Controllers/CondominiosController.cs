@@ -12,9 +12,16 @@ namespace proyectoDB2_condominios.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.usuario = JsonConvert.DeserializeObject<Usuario>(HttpContext.Session.GetString("usuario"));
-            ViewBag.Condominios = CargarCondominios();
-            return View();
+            if (String.IsNullOrEmpty(HttpContext.Session.GetString("usuario")))
+            {
+                return RedirectToAction("Index","Login");
+            }
+            else
+            {
+                ViewBag.usuario = JsonConvert.DeserializeObject<Usuario>(HttpContext.Session.GetString("usuario"));
+                ViewBag.Condominios = CargarCondominios();
+                return View();
+            }
         }
 
         public List<Condominio> CargarCondominios()
@@ -41,11 +48,17 @@ namespace proyectoDB2_condominios.Controllers
 
         public ActionResult Editar(int idProyectoHabitacional)
         {
-            ViewBag.usuario = JsonConvert.DeserializeObject<Usuario>(HttpContext.Session.GetString("usuario"));
-            ViewBag.condominio = CargarCondominio(idProyectoHabitacional);
-            ViewBag.viviendas = ViviendasController.CargarViviendas(idProyectoHabitacional);
-
-            return View();
+            if (String.IsNullOrEmpty(HttpContext.Session.GetString("usuario")))
+            {
+                return RedirectToAction("Index","Login");
+            }
+            else
+            {
+                ViewBag.usuario = JsonConvert.DeserializeObject<Usuario>(HttpContext.Session.GetString("usuario"));
+                ViewBag.condominio = CargarCondominio(idProyectoHabitacional);
+                ViewBag.viviendas = ViviendasController.CargarViviendas(idProyectoHabitacional);
+                return View();
+            }
         }
 
         private Condominio CargarCondominio(int idProyectoHabitacional)
@@ -121,8 +134,15 @@ namespace proyectoDB2_condominios.Controllers
 
         public ActionResult Agregar()
         {
-            ViewBag.usuario = JsonConvert.DeserializeObject<Usuario>(HttpContext.Session.GetString("usuario"));
-            return View();
+            if (String.IsNullOrEmpty(HttpContext.Session.GetString("usuario")))
+            {
+                return RedirectToAction("Index","Login");
+            }
+            else
+            {
+                ViewBag.usuario = JsonConvert.DeserializeObject<Usuario>(HttpContext.Session.GetString("usuario"));
+                return View();
+            }
         }
 
         public ActionResult AgregarCondominio(IFormFile inputPhoto, string codigo, string nombre, string direccion, string telefonoOficina, string selectNumViviendas)

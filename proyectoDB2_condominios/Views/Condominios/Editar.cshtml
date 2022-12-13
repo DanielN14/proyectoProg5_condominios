@@ -1,13 +1,13 @@
 ﻿@{
     ViewData["Title"] = "Editar Condominio";
 }
-@* @Html.Partial("AccesoUsuarios") *@
+
 @await Html.PartialAsync("AccesoUsuarios")
+
 <div class="container">
     <div class="row">
         <form class="form" asp-controller="Condominios" asp-action="UpdateCondominio" enctype="multipart/form-data">
             <div>
-                <input hidden="hidden" name="idProyectoHabitacional" value="@ViewBag.condominio.idProyectoHabitacional">
                 <div class="row">
                     <div class="col-lg-3 col-md-4 col-sm-12">
                         <div class="container-profile">
@@ -51,7 +51,8 @@
                         <div class="form-group float-end">
                             <div class="col-12">
                                 <button class="btn btn-white" type="reset">Limpiar</button>
-                                <button class="btn btn-success" type="submit">Guardar</button>
+                                <button class="btn btn-success" name="idProyectoHabitacional"
+                                    value="@ViewBag.condominio.idProyectoHabitacional" type="submit">Guardar</button>
                             </div>
                         </div>
                     </div>
@@ -59,64 +60,79 @@
             </div>
         </form>
     </div>
-    <div class="row mt-4 p-3">
-        <h4>Viviendas</h4>
-        <hr>
-        <div class="table-responsive">
-            <table class="table caption-top table-sm">
-                <thead>
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Número de vivienda</th>
-                        <th scope="col">Descripción</th>
-                        <th scope="col">Número de habitaciones</th>
-                        <th scope="col">Cocheras</th>
-                        <th scope="col">Estado</th>
-                        <th scope="col">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var vivienda in ViewBag.viviendas)
-                    {
+
+    <button type="button" class="btn btn-success btn-sm">
+        <i class="bi bi-house-add-fill"></i>
+        Agregar Vivienda
+    </button>
+    @if (((IEnumerable<dynamic>)ViewBag.viviendas).Count() > 0)
+    {
+        <div class="row mt-4 p-3">
+            <h4>Viviendas</h4>
+            <hr>
+            <div class="table-responsive">
+                <table class="table caption-top table-sm">
+                    <thead>
                         <tr>
-                            @{
-                                <th>@vivienda.idVivienda</th>
-                                <td>@vivienda.numeroVivienda</td>
-                                <td>@vivienda.descripcion</td>
-                                <td>@vivienda.numeroHabitaciones</td>
-                                <td>@vivienda.cochera</td>
-
-                                if (@vivienda.idPersona == 0)
-                                {
-                                    <td>Desocupada</td>
-                                }
-                                else
-                                {
-                                    <td>Ocupada</td>
-                                }
-                            }
-                            <td class="actions">
-                                <button class="btn btn-primary btn-sm">
-                                    <i class="bi bi-eye-fill"></i>
-                                </button>
-
-                                <button class="btn btn-warning btn-sm"
-                                onclick="window.location='@Url.Action("Editar", "Viviendas", new {idVivienda=@vivienda.idVivienda})'">
-                                    <i class="bi bi-pencil"></i>
-                                </button>
-                                <button class="btn btn-danger btn-sm" type="button" data-bs-toggle="modal"
-                                data-bs-target="#deleteModal" onClick="getValue(@vivienda.idVivienda)">
-                                    <i class="bi bi-trash-fill"></i>
-                                </button>
-
-                            </td>
+                            <th scope="col">ID</th>
+                            <th scope="col">Número de vivienda</th>
+                            <th scope="col">Descripción</th>
+                            <th scope="col">Número de habitaciones</th>
+                            <th scope="col">Cocheras</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col">Acciones</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach (var vivienda in ViewBag.viviendas)
+                        {
+                            <tr>
+                                @{
+                                    <th>@vivienda.idVivienda</th>
+                                    <td>@vivienda.numeroVivienda</td>
+                                    <td>@vivienda.descripcion</td>
+                                    <td>@vivienda.numeroHabitaciones</td>
+                                    <td>@vivienda.cochera</td>
+
+                                    if (@vivienda.idPersona == 0)
+                                    {
+                                        <td>Desocupada</td>
+                                    }
+                                    else
+                                    {
+                                        <td>Ocupada</td>
+                                    }
+                                }
+                                <td class="actions">
+                                    <button class="btn btn-primary btn-sm">
+                                        <i class="bi bi-eye-fill"></i>
+                                    </button>
+
+                                    <button class="btn btn-warning btn-sm"
+                                onclick="window.location='@Url.Action("Editar", "Viviendas", new {idVivienda=@vivienda.idVivienda})'">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                    <button class="btn btn-danger btn-sm" type="button" data-bs-toggle="modal"
+                                data-bs-target="#deleteModal" onClick="getValue(@vivienda.idVivienda)">
+                                        <i class="bi bi-trash-fill"></i>
+                                    </button>
+
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
+    }
+    else
+    {
+        <div class="mt-4">
+            <h4>El condominio no contiene viviendas.</h4>
+        </div>
+    }
 </div>
+
 
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">

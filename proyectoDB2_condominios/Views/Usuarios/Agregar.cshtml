@@ -100,19 +100,32 @@
     </form>
 </div>
 
+@section Scripts
+{
 <script type="text/javascript">
     const actualizarViviendas = async (id) => {
         let data = await fetch("/Usuarios/GetViviendas?pidProyectoHabitacional=" + id);
 
         const result = await data.json();
 
-        selectViviendas = document.getElementById("selectViviendas");
-
         $("#selectViviendas").empty();
         $('#selectViviendas').html('<option value="">Seleccione una vivienda</option>');
 
         result.forEach(vivienda => {
             $('#selectViviendas').append(`<option value="${vivienda.idVivienda}">${vivienda.descripcion}</option>`);
-        })
+        });
     }
+
+    $(document).ready(function () {
+        $("#selectRol").change(function () {
+            var seleccion = $(this).children("option:selected").text();
+
+            if (seleccion == "Condómino") {
+                $('#opcionesCondomino').removeAttr("hidden");
+            } else {
+                $('#opcionesCondomino').attr("hidden", "hidden");
+            }
+        });
+    });
 </script>
+}

@@ -1,0 +1,50 @@
+﻿@{
+    ViewData["Title"] = "Visitas_QR";
+}
+
+@await Html.PartialAsync("AccesoUsuarios")
+
+    <div class="container d-flex justify-content-center">
+        <div class="card align-items-center" style="width: 18rem; height:8rem; margin-right:10px">
+            <div class="card-body align-items-center">
+                <h4 class="card-title">Validación QR</h4>
+                <p class="card-text">
+                    <input type="text" id="CodigoQR" required />
+                    <button class="btn btn-warning btn-sm"
+                            onclick="Validar()">
+                            Validar
+                    </button>
+            </div>
+        </div>
+    </div>
+    <div class="container d-flex justify-content-center">
+            @if (TempData["Mensaje"] != null)
+        {
+            <div class="alert alert-success" style="margin-top:10px" role="alert">
+            @TempData["Mensaje"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+         }
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-danger" style="margin-top:10px" role="alert">
+                @TempData["Error"] 
+             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+         }
+</div>
+
+
+
+
+
+<script type="text/javascript">
+
+    function Validar() {
+        debugger;
+        let url = '/Seguridad/Validacion?CodigoQR=' + document.querySelector("#CodigoQR").value;
+        location.href = url;
+    }
+</script>
+

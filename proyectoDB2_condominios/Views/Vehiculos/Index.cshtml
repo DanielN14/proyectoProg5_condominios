@@ -4,72 +4,144 @@
 
 @await Html.PartialAsync("AccesoUsuarios")
 
-<div class="table-responsive">
-    <table class="table caption-top table-sm">
-        <thead>
-            <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Placa</th>
-                <th scope="col">Marca</th>
-                <th scope="col">Modelo</th>
-                <th scope="col">Color</th>
-                <th scope="col">Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in ViewBag.Vehiculos)
-            {
+@if (((IEnumerable<dynamic>)ViewBag.Vehiculos).Count() > 0)
+{
+    <div class="table-responsive">
+        <table class="table caption-top table-sm">
+            <thead>
                 <tr>
-                    @{
-                        <th>@item.idVehiculo</th>
-                        if (String.IsNullOrEmpty(@item.placa))
-                        {
-                            <td>-</td>
-                        }
-                        else
-                        {
-                            <td>@item.placa</td>
-                        }
-
-                        if (String.IsNullOrEmpty(@item.marca))
-                        {
-                            <td>-</td>
-                        }
-                        else
-                        {
-                            <td>@item.marca</td>
-                        }
-
-                        if (String.IsNullOrEmpty(@item.modelo))
-                        {
-                            <td>-</td>
-                        }
-                        else
-                        {
-                            <td>@item.modelo</td>
-                        }
-                        if (String.IsNullOrEmpty(@item.color))
-                        {
-                            <td>-</td>
-                        }
-                        else
-                        {
-                            <td>@item.color</td>
-                        }
-
-                    }
-                    <td class="actions ">
-                        <button class="btn btn-warning btn-sm"
-                            onclick="window.location='@Url.Action("Editar", "Vehiculos", new {idVehiculo=@item.idVehiculo})'">
-                            <i class="bi bi-pencil"></i>
-                        </button>
-                        <button class="btn btn-danger btn-sm"
-                            onclick="window.location= '@Url.Action("EliminarVehiculo", "Vehiculos", new {idVehiculo=@item.idVehiculo})'">
-                            <i class="bi bi-trash-fill"></i>
-                        </button>
-                    </td>
+                    <th scope="col">ID</th>
+                    <th scope="col">Placa</th>
+                    <th scope="col">Marca</th>
+                    <th scope="col">Modelo</th>
+                    <th scope="col">Color</th>
+                    <th scope="col">Libre Entrada</th>
+                    <th scope="col">Acciones</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var item in ViewBag.Vehiculos)
+                {
+                    <tr>
+                        @{
+                            <th>@item.idVehiculo</th>
+                            if (String.IsNullOrEmpty(@item.placa))
+                            {
+                                <td>-</td>
+                            }
+                            else
+                            {
+                                <td>@item.placa</td>
+                            }
+
+                            if (String.IsNullOrEmpty(@item.marca))
+                            {
+                                <td>-</td>
+                            }
+                            else
+                            {
+                                <td>@item.marca</td>
+                            }
+
+                            if (String.IsNullOrEmpty(@item.modelo))
+                            {
+                                <td>-</td>
+                            }
+                            else
+                            {
+                                <td>@item.modelo</td>
+                            }
+                            if (String.IsNullOrEmpty(@item.color))
+                            {
+                                <td>-</td>
+                            }
+                            else
+                            {
+                                <td>@item.color</td>
+                            }
+
+                            <td>
+                                @{
+                                    string chequeo = "unchecked";
+                                    if (@item.accesoLibre == 1)
+                                    {
+                                        chequeo = "checked";
+                                    }
+
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" role="switch" name="switchAcceso"
+                                    onchange="updateAccesoLibre(this, @item.idVehiculo)" value="@item.accesoLibre" @chequeo>
+                                    </div>
+                                }
+                            </td>
+                        }
+                        <td class="actions ">
+                            <button class="btn btn-warning btn-sm"
+                        onclick="window.location='@Url.Action("Editar", "Vehiculos", new {idVehiculo=@item.idVehiculo})'">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+
+                            <button class="btn btn-danger btn-sm" type="button" data-bs-toggle="modal"
+                        data-bs-target="#deleteModal" onClick="getValue(@item.idVehiculo)">
+                                <i class="bi bi-trash-fill"></i>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="mt-4" style="text-align: center;">
+        <h2>Aún no has agregado vehículos</h2>
+    </div>
+}
+
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar Vehículo</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ¿Seguro que desea eliminar el vehículo?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" id="idDelete" onclick="deleteElement()">Eliminar</button>
+            </div>
+        </div>
+    </div>
 </div>
+
+@section Scripts
+{
+<script type="text/javascript">
+    const updateAccesoLibre = async (checkbox, idVehiculo) => {
+        if (checkbox.checked) {
+            checkbox.value = 1;
+        } else {
+            checkbox.value = 0;
+        }
+
+        let resp = await fetch(`/Vehiculos/UpdateAccesoLibre?accesoLibre=${checkbox.value}&idVehiculo=${idVehiculo}`, {
+            method: 'POST'
+        });
+    };
+
+    function getValue(idElemento) {
+        $("#idDelete").val(idElemento);
+    }
+
+    const deleteElement = async () => {
+        var value = $("#idDelete").val();
+        let url = `/Vehiculos/EliminarVehiculo?idVehiculo=+${value}&tipoPropietario=condómino`;
+        location.href = url;
+    }
+
+</script>
+}

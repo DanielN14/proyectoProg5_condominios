@@ -1,0 +1,9 @@
+﻿@{
+    ViewData["Title"] = "EasyPass";
+}
+@await Html.PartialAsync("AccesoUsuarios")
+
+<form class="form" asp-controller="Visitas" asp-action="AgregarQR" enctype="multipart/form-data">
+    <button class="btn btn-primary" type="submit">Generar codigo QR</button>
+</form>
+

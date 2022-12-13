@@ -1,0 +1,307 @@
+﻿@{
+    ViewData["Title"] = "Registro de visitas";
+}
+
+@await Html.PartialAsync("AccesoUsuarios")
+
+<div class="container">
+    <form class="form" id="formVisitas" asp-controller="Visitas" asp-action="AgregarVisita" method="post"
+        enctype="multipart/form-data">
+        <div style="border: 1px solid #d5d7dd; padding: 30px; border-radius: 15px;">
+            <div class="text-center">
+                <h4>Creación de visitas</h4>
+                <hr>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-12 col-sm-12">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <label for="fechaEntrada" class="form-label">Fecha de entrada</label>
+                        <input type="datetime-local" class="form-control form-control-sm mb-2" name="fechaEntrada"
+                            required />
+                    </div>
+
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <label for="selectTipo" class="form-label">Tipo de Visita:</label>
+                        <select class="form-select form-select-sm mb-2" name="selectTipo" id="selectTipo" required>
+                            <option selected disabled value="">Seleccione un tipo de visita</option>
+                            @foreach (var item in ViewBag.tipoVisita)
+                            {
+                                <option value="@item.idTipoVisita">@item.nombreTipo</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col-lg-12 col-md-12 col-sm-12" id="divSelectVisitante" hidden="hidden">
+                        <label for="selectTipoVisitante" class="form-label">Tipo de visitante:</label>
+                        <select class="form-select form-select-sm mb-2" name="selectTipoVisitante"
+                            id="selectTipoVisitante">
+                            <option selected disabled value="">Seleccione un tipo de visitante</option>
+                            <option value="Nuevo">Nuevo visitante</option>
+                            <option value="Existente">Visitante existente</option>
+                            <option value="Favorito">Visitante favoritos</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-lg-8 col-md-12 col-sm-12">
+                    <div class="row">
+                        @* Visitante nuevo*@
+                        <div class="col-12 p-3" id="divVisitanteNuevo" hidden="hidden">
+                            <div class="row">
+                                <h6 style="text-align: center;">Nuevo visitante <i class="bi bi-person-add" style="font-size: 26px;"></i></h6>
+                                    <hr />
+                                <div class="col-lg-7 col-md-7 col-sm-12">
+                                    <label for="txtNombre" class="form-label">Nombre</label>
+                                    <input type="text" class="form-control form-control-sm mb-2" name="txtNombre" />
+                                </div>
+                                <div class="col-lg-5 col-md-5 col-sm-12">
+                                    <label for="txtPApellido" class="form-label">Primer Apellido</label>
+                                    <input type="text" class="form-control form-control-sm mb-2" name="txtPApellido" />
+                                </div>
+                                <div class="col-lg-5 col-md-5 col-sm-12">
+                                    <label for="txtSApellido" class="form-label">Segundo Apellido</label>
+                                    <input type="text" class="form-control form-control-sm mb-2" name="txtSApellido" />
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <label for="txtCedula" class="form-label">Cédula</label>
+                                    <input type="text" class="form-control form-control-sm mb-2" name="txtCedula" />
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 align-self-center mb-4">
+                                    <div class="form-check form-switch">
+                                        <label class="form-check-label" for="switchfavorito">Agregar a
+                                            favoritos.</label>
+                                        <input class="form-check-input" type="checkbox" role="switch"
+                                            name="switchfavorito" id="switchfavorito" value="0">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 align-self-center mb-4">
+                                    <div class="form-check form-switch">
+                                        <label class="form-check-label" for="switchEnVehiculo">Agregar vehículo.</label>
+                                        <input class="form-check-input" type="checkbox" role="switch"
+                                            name="switchEnVehiculo" id="switchEnVehiculo" value="0">
+                                    </div>
+                                </div>
+                                .
+                                @* Vehiculo *@
+                                <div class="col-12" id="divVehiculo" hidden="hidden">
+                                    <h6 style="text-align: center;">Vehículo <i class="bi bi-car-front-fill" style="font-size: 26px;"></i></h6>
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-lg-7 col-md-7 col-sm-12">
+                                            <label for="txtPlaca" class="form-label">Placa</label>
+                                            <input type="text" class="form-control form-control-sm mb-2"
+                                                name="txtPlaca" />
+                                        </div>
+                                        <div class="col-lg-5 col-md-5 col-sm-12">
+                                            <label for="txtMarca" class="form-label">Marca</label>
+                                            <input type="text" class="form-control form-control-sm mb-2"
+                                                name="txtMarca" />
+                                        </div>
+                                        <div class="col-lg-5 col-md-5 col-sm-12">
+                                            <label for="txtModelo" class="form-label">Modelo</label>
+                                            <input type="text" class="form-control form-control-sm mb-2"
+                                                name="txtModelo" />
+                                        </div>
+                                        <div class="col-lg-5 col-md-5 col-sm-12">
+                                            <label for="txtColor" class="form-label">Color</label>
+                                            <input type="text" class="form-control form-control-sm mb-2"
+                                                name="txtColor" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+
+                        @* Visitante existente*@
+                        <div class="col-12 p-3" id="divVisitanteExistente" hidden="hidden">
+                            <div class="row">
+                                <div class="col-lg-7 col-md-12 col-sm-12">
+                                    <label for="selectVisitanteExistente" class="form-label">Visitante
+                                        existente:</label>
+                                    <select class="form-select form-select-sm mb-2" name="selectVisitanteExistente"
+                                        id="selectVisitanteExistente">
+                                        <option selected disabled value="">Seleccione un visitante</option>
+                                        @foreach (var item in ViewBag.visitantes)
+                                        {
+                                            <option value="@item.idVisitante">@item.nombre @item.primerApellido
+                                                @item.segundoApellido
+                                            </option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        @* Visitante favoritos*@
+                        <div class="col-12 p-3" id="divVisitanteFavoritos" hidden="hidden">
+                            <div class="row">
+                                <div class="col-lg-7 col-md-12 col-sm-12">
+                                    <label for="selectVisitantefavoritos" class="form-label">
+                                        Visitante
+                                        favorito:
+                                    </label>
+                                    <select class="form-select form-select-sm mb-2" name="selectVisitantefavoritos"
+                                            id="selectVisitantefavoritos">
+                                        <option selected disabled value="">Seleccione un visitante</option>
+                                        @foreach (var item in ViewBag.visitantesFav)
+                                        {
+                                            <option value="@item.idVisitante">
+                                                @item.nombre @item.primerApellido
+                                                @item.segundoApellido
+                                            </option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        @* Delivery *@
+                        <div class="col-lg-8 col-md-12 col-sm-12 p-3" id="divFormDelivery" hidden="hidden">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="row">
+                                        <label for="selectDelivery" class="form-label">Proveedor de delivery</label>
+                                        <select class="form-select form-select-sm mb-2" name="selectDelivery"
+                                            id="selectDelivery">
+                                            <option selected disabled value="">Seleccione un proveedor de delivery
+                                            </option>
+                                            <option value="UberEats">UberEats</option>
+                                            <option value="Didi">Didi</option>
+                                            <option value="Rappi">Rappi</option>
+                                            <option value="PedidosYa">PedidosYa</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group float-end">
+                        <button class="btn btn-white" type="reset">Limpiar</button>
+                        <button class="btn btn-success" type="submit">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts
+{
+<script type="text/javascript">
+    $(document).ready(function () {
+        /* Mostrar o ocultar formularios según tipo visita*/
+        $("#selectTipo").change(function () {
+            var seleccion = $(this).children("option:selected").text();
+
+            if (seleccion == "Tradicional") {
+                // Visitantes
+                $('#divSelectVisitante').removeAttr("hidden");
+
+                // Delivery
+                $('#divFormDelivery').attr("hidden", "hidden");
+                $("#selectDelivery").val("");
+            }
+
+            if (seleccion == "Delivery") {
+                // Delivery 
+                $('#divFormDelivery').removeAttr("hidden");// Se muestra divFormDelivery
+
+                // Visitantes
+                $('#divVisitanteNuevo').attr("hidden", "hidden"); // Se oculta divVisitanteNuevo
+                $('#divVisitanteExistente').attr("hidden", "hidden"); // Se oculta divVisitanteExistente
+                $('#divVisitanteFavoritos').attr("hidden", "hidden"); // Se oculta divVisitanteFavoritos
+                $('#divSelectVisitante').attr("hidden", "hidden"); // Se oculta divSelectVisitante
+                $("#selectTipoVisitante").val("");
+            }
+        });
+
+        /* Remover o agregar required según tipo visita */
+        $("#selectTipo").change(function () {
+            var seleccion = $(this).children("option:selected").text();
+
+            if (seleccion == "Tradicional") {
+                $('#divVisitanteNuevo :input').prop("required", true); // Agregar required de divVisitanteNuevo
+                $('#divVisitanteExistente :input').prop("required", true); // Agregar required de divVisitanteExistente
+                $('#divVisitanteFavoritos :input').prop("required", true); // Agregar required de divVisitanteFavoritos
+                $('#divSelectVisitante :input').prop("required", true); // Agregar required de divSelectVisitante
+                $('#divFormDelivery :input').removeAttr("required"); // Quitar required de divFormDelivery
+            }
+
+            if (seleccion == "Delivery") {
+                $('#divVisitanteNuevo :input').removeAttr("required"); // Quitar required de divVisitanteNuevo
+                $('#divVisitanteExistente :input').removeAttr("required"); // Quitar required de divVisitanteNuevo
+                $('#divVisitanteFavoritos :input').removeAttr("required"); // Quitar required de divVisitanteFavoritos
+                $('#divSelectVisitante :input').removeAttr("required"); // Quitar required de divSelectVisitante
+                $('#divFormDelivery :input').prop("required", true); // Agregar required de divFormDelivery
+            }
+        });
+
+        /* Mostrar o ocultar formularios según tipo visitante*/
+        $("#selectTipoVisitante").change(function () {
+            var seleccion = $(this).children("option:selected").text();
+
+            if (seleccion == "Nuevo visitante") {
+                $('#divVisitanteNuevo').removeAttr("hidden");
+                $('#divVisitanteExistente').attr("hidden", "hidden");
+                $('#divVisitanteFavoritos').attr("hidden", "hidden");
+            }
+
+            if (seleccion == "Visitante existente") {
+                $('#divVisitanteExistente').removeAttr("hidden");
+                $('#divVisitanteNuevo').attr("hidden", "hidden");
+                $('#divVisitanteFavoritos').attr("hidden", "hidden");
+            }
+            if (seleccion == "Visitante favoritos") {
+                $('#divVisitanteFavoritos').removeAttr("hidden");
+                $('#divVisitanteNuevo').attr("hidden", "hidden");
+                $('#divVisitanteExistente').attr("hidden", "hidden");
+            }
+        });
+
+        /* Remover o agregar required según tipo visitante */
+        $("#selectTipoVisitante").change(function () {
+            var seleccion = $(this).children("option:selected").text();
+
+            if (seleccion == "Nuevo visitante") {
+                $('#divVisitanteNuevo :input').prop("required", true);
+                $('#switchfavorito').removeAttr("required");
+                $('#divVisitanteExistente :input').removeAttr("required");
+                $('#divVisitanteFavoritos :input').removeAttr("required");
+            }
+
+            if (seleccion == "Visitante existente") {
+                $('#divVisitanteExistente :input').prop("required", true);
+                $('#divVisitanteNuevo :input').removeAttr("required");
+                $('#divVisitanteFavoritos :input').removeAttr("required");
+            }
+            if (seleccion == "Visitante favoritos") {
+                $('#divVisitanteFavoritos :input').prop("required", true);
+                $('#divVisitanteNuevo :input').removeAttr("required");
+                $('#divVisitanteExistente :input').removeAttr("required");
+            }
+        });
+
+        $("#switchfavorito").change(function () {
+            if ($(this).prop("checked")) {
+                $(this).val(1);
+            } else {
+                $(this).val(0);
+            }
+        });
+
+        $("#switchEnVehiculo").change(function () {
+            if ($(this).prop("checked")) {
+                $(this).val(1);
+                $('#divVehiculo').removeAttr("hidden");
+            } else {
+                $(this).val(0);
+                $('#divVehiculo').attr("hidden", "hidden");
+            }
+        });
+    });
+</script>
+}

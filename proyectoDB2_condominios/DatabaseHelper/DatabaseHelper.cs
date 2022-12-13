@@ -5,6 +5,10 @@ namespace proyecto_condominios.DatabaseHelper
 {
     public class DatabaseHelper
     {
+        //Chris - CHRISTOPHER\SQLEXPRESS02
+        //Jorge - LAPTOP-KK5T2UNQ\SQLEXPRESS
+        //Daniel-
+        //Fran  -
 
         const string servidor = @"localhost";
         const string baseDatos = "CondominiosProgra5";

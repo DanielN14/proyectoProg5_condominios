@@ -1,0 +1,185 @@
+﻿@{
+    ViewData["Title"] = "Visitas";
+}
+
+@await Html.PartialAsync("AccesoUsuarios")
+
+@* TRADICIONAL *@
+<div class="row mb-4">
+    @* Busqueda *@
+    <div class="col-12" style="margin: 0 auto;">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-12">
+                <h4 style="text-align: center;">Visitas tradicionales
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 26 26"
+                        style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;">
+                        <path d="M11 12h6v6h-6z"></path>
+                        <path d="M19 4h-2V2h-2v2H9V2H7v2H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h14c1.103 0 2-.897
+        2-2V6c0-1.103-.897-2-2-2zm.001 16H5V8h14l.001 12z">
+                        </path>
+                    </svg>
+                </h4>
+            </div>
+            <div class="col-lg-9 col-md-12 col-sm-12">
+                <div class="row d-flex justify-content-end">
+                    <div class="col-lg-6 col-md-12 col-sm-12">
+                        <form asp-controller="Seguridad" asp-action="Visitas_Guarda" enctype="multipart/form-data">
+                            <div class="input-group">
+                                <input hidden="hidden" type="text" name="idProyectoHabitacional"
+                                    value="@ViewData["idProyectoHabitacional"]" />
+                                <input type="text" class="form-control" placeholder="Buscar..."
+                                    name="busquedaTradicional" aria-describedby="busquedaTradicional">
+                                <button class="btn btn-success btn-sm" type="submit"
+                                    id="busquedaTradicional">Buscar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr />
+    </div>
+
+    @* Tabla Visitas tradicionales *@
+    <div class="col-12" style="margin: 0 auto;">
+        @if (((IEnumerable<dynamic>)ViewBag.VisitasTradicionales_Guarda).Count() > 0)
+        {
+            <div class="table-responsive">
+                <table class="table caption-top table-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Fecha entrada</th>
+                            <th scope="col">Vivienda</th>
+                            <th scope="col">Residente</th>
+                            <th scope="col">Visitante</th>
+                            <th scope="col">Cédula Visitante</th>
+                            <th scope="col">Placa</th>
+                            <th scope="col">Marca Vehículo</th>
+                            <th scope="col">Condominio</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var visitaTradicional in ViewBag.VisitasTradicionales_Guarda)
+                        {
+                            <tr>
+                                @{
+                                    <th>@visitaTradicional.idVisita</th>
+                                    <td>@visitaTradicional.FechaEntrada</td>
+                                    <td>@visitaTradicional.numeroVivienda</td>
+                                    <td>@visitaTradicional.nombreResidente</td>
+                                    <td>@visitaTradicional.nombreVisitante</td>
+                                    <td>@visitaTradicional.cedulaVisitante</td>
+                                    <td>@visitaTradicional.placaVehiculo</td>
+                                    <td>@visitaTradicional.marcaVehiculo</td>
+                                    <td>@visitaTradicional.condominio</td>
+                                }
+                                <td class="actions">
+                                    <button class="btn btn-primary btn-sm"
+                                onclick="window.location='@Url.Action("MarcarSalida", "Seguridad", new {idVisita=@visitaTradicional.idVisita, idProyectoHabitacional =@ViewData["idProyectoHabitacional"]})'">
+                                        Marcar salida
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="mt-4">
+                <h5>No se han agregado visitas tradicionales</h5>
+            </div>
+        }
+    </div>
+</div>
+
+@* DELIVERY *@
+<div class="row mt-4">
+    @* Busqueda *@
+    <div class="col-12" style="margin: 0 auto;">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-12">
+                <h4>Visitas de delivery
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-moped" width="28"
+                        height="28" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <circle cx="18" cy="17" r="2"></circle>
+                        <path d="M5 16v1a2 2 0 0 0 4 0v-5h-3a3 3 0 0 0 -3 3v1h10a6 6 0 0 1 5 -4v-5a2 2 0 0 0 -2 -2h-1">
+                        </path>
+                        <line x1="6" y1="9" x2="9" y2="9"></line>
+                    </svg>
+                </h4>
+            </div>
+            <div class="col-lg-9 col-md-12 col-sm-12">
+                <div class="row d-flex justify-content-end">
+                    <div class="col-lg-6 col-md-12 col-sm-12">
+                        <form asp-controller="Seguridad" asp-action="Visitas_Guarda" enctype="multipart/form-data">
+                            <div class="input-group">
+                                <input hidden="hidden" type="text" name="idProyectoHabitacional"
+                                    value="@ViewData["idProyectoHabitacional"]" />
+                                <input type="text" class="form-control" placeholder="Buscar..." name="busquedaDelivery"
+                                    aria-describedby="busquedaDelivery">
+                                <button class="btn btn-success btn-sm" type="submit"
+                                    id="busquedaDelivery">Buscar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr />
+    </div>
+
+    @* Tabla Visitas de delivery *@
+    <div class="col-12" style="margin: 0 auto;">
+        @if (((IEnumerable<dynamic>)ViewBag.VisitasDelivery_Guarda).Count() > 0)
+        {
+            <div class="table-responsive">
+                <table class="table caption-top table-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Fecha de entrada</th>
+                            <th scope="col">Número de vivienda</th>
+                            <th scope="col">Residente</th>
+                            <th scope="col">Proveedor de delivery</th>
+                            <th scope="col">Condominio</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var visitasDelivery in ViewBag.VisitasDelivery_Guarda)
+                        {
+                            <tr>
+                                @{
+                                    <th>@visitasDelivery.idVisita</th>
+                                    <td>@visitasDelivery.FechaEntrada</td>
+                                    <td>@visitasDelivery.numeroVivienda</td>
+                                    <td>@visitasDelivery.nombreResidente</td>
+                                    <td>@visitasDelivery.proveedorDelivery</td>
+                                    <td>@visitasDelivery.condominio</td>
+                                }
+                                <td class="actions">
+                                    <button class="btn btn-primary btn-sm"
+                                onclick="window.location='@Url.Action("MarcarSalida", "Seguridad", new {idVisita=@visitasDelivery.idVisita, idProyectoHabitacional =@ViewData["idProyectoHabitacional"]})'">
+                                        Marcar salida
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="mt-4">
+                <h5>No se han agregado visitas de delivery</h5>
+            </div>
+        }
+    </div>
+</div>

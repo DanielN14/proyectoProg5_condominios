@@ -16,7 +16,7 @@
                                 <label for="inputPhoto"></label>
                             </div>
                             <div class="avatar-preview">
-                                <div id="imagePreview" style="background-image: url(@ViewBag.usuario.foto);">
+                                <div id="imagePreview" style="background-image: url(@ViewBag.usuarioEdit.foto);">
                                 </div>
                             </div>
                         </div>
@@ -28,48 +28,48 @@
                         <hr>
                     </div>
                     <div class="row">
-                        <input hidden="hidden" name="idPersona" value="@ViewBag.usuario.idPersona">
-                        <input hidden="hidden" name="idUsuario" value="@ViewBag.usuario.idUsuario">
+                        <input hidden="hidden" name="idPersona" value="@ViewBag.usuarioEdit.idPersona">
+                        <input hidden="hidden" name="idUsuario" value="@ViewBag.usuarioEdit.idUsuario">
                         <div class="col-lg-4 col-md-12 col-sm-12">
                             <label for="txtNombre" class="form-label">Nombre</label>
-                            <input type="text" value="@ViewBag.usuario.nombre" class="form-control form-control-sm mb-2"
-                                name="txtNombre" required />
+                            <input type="text" value="@ViewBag.usuarioEdit.nombre"
+                                class="form-control form-control-sm mb-2" name="txtNombre" required />
                         </div>
                         <div class="col-lg-4 col-md-6 col-sm-12">
                             <label for="txtPApellido" class="form-label">Primer Apellido</label>
-                            <input type="text" value="@ViewBag.usuario.primerApellido"
+                            <input type="text" value="@ViewBag.usuarioEdit.primerApellido"
                                 class="form-control form-control-sm mb-2" name="txtPApellido" required />
                         </div>
                         <div class="col-lg-4 col-md-6 col-sm-12">
                             <label for="txtSApellido" class="form-label">Segundo Apellido</label>
-                            <input type="text" value="@ViewBag.usuario.segundoApellido"
+                            <input type="text" value="@ViewBag.usuarioEdit.segundoApellido"
                                 class="form-control form-control-sm mb-2" name="txtSApellido" />
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-5 col-md-4 col-sm-12">
                             <label for="txtCedula" class="form-label">Cédula</label>
-                            <input type="text" value="@ViewBag.usuario.cedula" class="form-control form-control-sm mb-2"
-                                name="txtCedula" required />
+                            <input type="text" value="@ViewBag.usuarioEdit.cedula"
+                                class="form-control form-control-sm mb-2" name="txtCedula" required />
                         </div>
                         <div class="col-lg-7 col-md-8 col-sm-12">
                             <label for="txtEmail" class="form-label">Correo Electrónico</label>
-                            <input type="email" value="@ViewBag.usuario.email" class="form-control form-control-sm mb-2"
-                                name="txtEmail" required />
+                            <input type="email" value="@ViewBag.usuarioEdit.email"
+                                class="form-control form-control-sm mb-2" name="txtEmail" required />
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-4 col-md-6 col-sm-12">
                             <label for="txtPassword" class="form-label">Contraseña</label>
-                            <input type="password" value="@ViewBag.usuario.password"
+                            <input type="password" value="@ViewBag.usuarioEdit.password"
                                 class="form-control form-control-sm mb-2" name="txtPassword" required />
                         </div>
                         <div class="col-lg-4 col-md-6 col-sm-12">
                             @{
                                 <label for="selectRol" class="form-label">Rol del usuario</label>
-                                if (ViewBag.usuario.nombreRol == "Administrador")
+                                if (ViewBag.usuarioEdit.nombreRol == "Administrador")
                                 {
-                                    <p style="text-decoration: underline;"><b>@ViewBag.usuario.nombreRol</b></p>
+                                    <p style="text-decoration: underline;"><b>@ViewBag.usuarioEdit.nombreRol</b></p>
                                 }
                                 else
                                 {
@@ -78,11 +78,11 @@
                                         @foreach (var roles in ViewBag.rolesUsuarios)
                                         {
                                             bool isSelected = false;
-                                            if (@ViewBag.usuario.nombreRol == roles.nombreRol)
+                                            if (@ViewBag.usuarioEdit.nombreRol == roles.nombreRol)
                                             {
                                                 isSelected = true;
                                             }
-                                            <option value="@roles.idRolUsuario" selected="@isSelected">@roles.nombreRol</option> 
+                                            <option value="@roles.idRolUsuario" selected="@isSelected">@roles.nombreRol</option>
                                         }
                                     </select>
                                 }
@@ -92,7 +92,11 @@
                     <br>
                     <div class="form-group float-end">
                         <div class="col-12">
-                            <button class="btn btn-white" type="reset">Limpiar</button>
+                            <button class="btn btn-secondary"
+                            type="button"
+                                onclick="window.location='@Url.Action("Index", "Usuarios")'">
+                                Cancelar
+                            </button>
                             <button class="btn btn-success" type="submit">Guardar</button>
                         </div>
                     </div>

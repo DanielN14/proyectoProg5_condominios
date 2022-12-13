@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "Editor de visitas tradicionales";
+}
+
+@await Html.PartialAsync("AccesoUsuarios")
+
+<div class="container">
+    <form class="form" asp-controller="Visitas" asp-action="UpdateVisita_Tradicional" enctype="multipart/form-data">
+        <div style="border: 1px solid #d5d7dd; padding: 30px; border-radius: 15px; width: 35rem; margin: 0 auto;">
+            <div class="row">
+                <div class="text-center">
+                    <h4>Editar Visita Tradicional</h4>
+                    <hr>
+                </div>
+                @foreach (var item in ViewBag.visitasTradicional)
+                {
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-12">
+                                    <label for="fechaEntrada" class="form-label">Fecha de entrada</label>
+                                    <input type="datetime-local" class="form-control form-control-sm mb-2"
+                                    name="fechaEntrada" value="@item.FechaEntrada" required />
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group float-end">
+                                        <button class="btn btn-secondary" type="button"
+                                        onclick="window.location='@Url.Action("Index", "Visitas")'">Cancelar</button>
+                                        <button class="btn btn-success" value="@item.idVisita" name="idVisita"
+                                        type="submit">Guardar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </form>
+</div>

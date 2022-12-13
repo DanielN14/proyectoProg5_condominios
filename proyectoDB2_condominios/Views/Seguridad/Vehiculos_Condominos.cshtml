@@ -1,0 +1,59 @@
+﻿@{
+    ViewData["Title"] = "Vehiculos";
+}
+
+@await Html.PartialAsync("AccesoUsuarios")
+
+<div class="row">
+    @* Busqueda *@
+    <div class="col-lg-10 col-md-12 col-sm-12" style="margin: 0 auto;">
+        <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-12">
+                <h4>Vehículos </h4>
+            </div>
+            <div class="col-lg-10 col-md-12 col-sm-12">
+                <div class="row d-flex justify-content-end">
+                    <div class="col-lg-6 col-md-12 col-sm-12">
+                        <form asp-controller="Seguridad" asp-action="Vehiculos_Condominos"
+                            enctype="multipart/form-data">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Buscar..." name="busqueda"
+                                    aria-describedby="busqueda">
+                                <button class="btn btn-success btn-sm" type="submit" id="busqueda">Buscar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr />
+    </div>
+
+    @* Tabla *@
+    <div class="table-responsive">
+        <table class="table caption-top table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Placa</th>
+                    <th scope="col">Marca</th>
+                    <th scope="col">Modelo</th>
+                    <th scope="col">Color</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in ViewBag.vehiculos)
+                {
+                    <tr>
+
+                        <th>@item.idVehiculo</th>
+                        <td>@item.placa</td>
+                        <td>@item.marca</td>
+                        <td>@item.modelo</td>
+                        <td>@item.color</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -52,23 +52,13 @@ namespace proyectoDB2_condominios.Controllers
 
             if (ds.Rows.Count == 1)
             {
-                int? idPers;
-                if (ds.Rows[0]["idPersona"] == DBNull.Value)
-                {
-                    idPers = null;
-                }
-                else
-                {
-                    idPers = Convert.ToInt32(ds.Rows[0]["idPersona"]);
-                }
-
                 Usuario usuario = new Usuario()
                 {
                     idUsuario = Convert.ToInt32(ds.Rows[0]["idUsuario"]),
                     email = ds.Rows[0]["email"].ToString(),
                     password = ds.Rows[0]["password"].ToString(),
                     idRolUsuario = Convert.ToInt32(ds.Rows[0]["idRolUsuario"]),
-                    idPersona = idPers,
+                    idPersona = Convert.ToInt32(ds.Rows[0]["idPersona"] is DBNull ? null : ds.Rows[0]["idPersona"]),
                 };
 
                 return usuario;

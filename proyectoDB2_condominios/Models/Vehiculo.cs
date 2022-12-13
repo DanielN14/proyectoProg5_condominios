@@ -7,5 +7,6 @@
         public string? marca { get; set; }
         public string? modelo { get; set; }
         public string? color { get; set; }
+        public int? accesoLibre { get; set; }
     }
 }

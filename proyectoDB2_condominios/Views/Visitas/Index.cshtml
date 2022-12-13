@@ -1,5 +1,161 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewData["Title"] = "Visitas";
 }
+
+@await Html.PartialAsync("AccesoUsuarios")
+
+<div class="row">
+    @* Visitas tradicionales *@
+    <div class="col-lg-8 col-md-12 col-sm-12" style="margin: 0 auto;">
+        <h4 style="text-align: center;">Visitas tradicionales
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 26 26"
+                style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;">
+                <path d="M11 12h6v6h-6z"></path>
+                <path
+                    d="M19 4h-2V2h-2v2H9V2H7v2H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2V6c0-1.103-.897-2-2-2zm.001 16H5V8h14l.001 12z">
+                </path>
+            </svg>
+        </h4>
+        <hr />
+        @if (((IEnumerable<dynamic>)ViewBag.visitasTradicionales).Count() > 0)
+        {
+            <div class="table-responsive">
+                <table class="table caption-top table-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Fecha entrada</th>
+                            <th scope="col">Nombre Completo</th>
+                            <th scope="col">Cédula</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var visitaTradicional in ViewBag.visitasTradicionales)
+                        {
+                            <tr>
+                                @{
+                                    <th>@visitaTradicional.idVisita</th>
+                                    <td>@visitaTradicional.FechaEntrada</td>
+                                    <td>@visitaTradicional.nomCompletoVisitante</td>
+                                    <td>@visitaTradicional.cedula</td>
+                                }
+                                <td class="actions">
+                                    <button class="btn btn-warning btn-sm"
+                                onclick="window.location='@Url.Action("Editar_Visitas_Tradicional", "Visitas", new {idVisita=@visitaTradicional.idVisita})'">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+
+                                    <button class="btn btn-danger btn-sm" type="button" data-bs-toggle="modal"
+                                data-bs-target="#deleteModal" onClick="getValue(@visitaTradicional.idVisita)">
+                                        <i class="bi bi-trash-fill"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="mt-4">
+                <h5>No se han agregado visitas tradicionales</h5>
+            </div>
+        }
+    </div>
+
+    @* Visitas de delivery *@
+    <div class="col-lg-8 col-md-12 col-sm-12 mt-5" style="margin: 0 auto;">
+        <h4 style="text-align: center;">Visitas de delivery
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-moped" width="28" height="28"
+                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <circle cx="18" cy="17" r="2"></circle>
+                <path d="M5 16v1a2 2 0 0 0 4 0v-5h-3a3 3 0 0 0 -3 3v1h10a6 6 0 0 1 5 -4v-5a2 2 0 0 0 -2 -2h-1"></path>
+                <line x1="6" y1="9" x2="9" y2="9"></line>
+            </svg>
+        </h4>
+        <hr />
+        @if (((IEnumerable<dynamic>)ViewBag.visitasDelivery).Count() > 0)
+        {
+            <div class="table-responsive">
+                <table class="table caption-top table-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Fecha de entrada</th>
+                            <th scope="col">Proveedor de delivery</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var visitasDelivery in ViewBag.visitasDelivery)
+                        {
+                            <tr>
+                                @{
+                                    <th>@visitasDelivery.idVisita</th>
+                                    <td>@visitasDelivery.FechaEntrada</td>
+                                    <td>@visitasDelivery.proveedorDelivery</td>
+                                }
+                                <td class="actions">
+                                    <button class="btn btn-primary btn-sm">
+                                        <i class="bi bi-eye-fill"></i>
+                                    </button>
+
+                                    <button class="btn btn-warning btn-sm"
+                                    onclick="window.location='@Url.Action("Editar_Visitas_Delivery", "Visitas", new {idVisita=@visitasDelivery.idVisita})'">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                    <button class="btn btn-danger btn-sm" type="button" data-bs-toggle="modal"
+                                data-bs-target="#deleteModal" onClick="getValue(@visitasDelivery.idVisita)">
+                                        <i class="bi bi-trash-fill"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="mt-4">
+                <h5>No se han agregado visitas de delivery</h5>
+            </div>
+        }
+    </div>
+</div>
+
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar Visitas</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ¿Seguro que desea eliminar la visita?
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" id="idDelete" value="">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" onclick="deleteElement()">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function getValue(idElemento) {
+        $("#idDelete").val(idElemento);
+    }
+
+    function deleteElement() {
+        var value = $("#idDelete").val();
+        let url = '/Visitas/EliminarVisita?idVisita=' + value;
+        location.href = url;
+    }
+</script>

@@ -4,26 +4,38 @@ using Microsoft.AspNetCore.Mvc;
 using proyecto_condominios.DatabaseHelper;
 using proyectoDB2_condominios.Models;
 using Newtonsoft.Json;
-using System.Net; 
+using System.Net;
 using System.Net.Mail;
 
 namespace proyectoDB2_condominios.Controllers
 {
     public class UsuariosController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Index(string busqueda)
         {
-            ViewBag.usuario = JsonConvert.DeserializeObject<Usuario>(HttpContext.Session.GetString("usuario"));
-            ViewBag.Usuarios = CargarUsuarios();
-            return View();
+            if (String.IsNullOrEmpty(HttpContext.Session.GetString("usuario")))
+            {
+                return RedirectToAction("Index","Login");
+            }
+            else
+            {
+                ViewBag.usuario = JsonConvert.DeserializeObject<Usuario>(HttpContext.Session.GetString("usuario"));
+                ViewBag.Usuarios = CargarUsuarios(busqueda);
+                return View();
+            }
         }
 
-        private List<Usuario> CargarUsuarios()
+        private List<Usuario> CargarUsuarios(string busqueda)
         {
-            DataTable ds = DatabaseHelper.ExecuteSelect(
-                "SELECT * FROM VW_ObtenerUsuarios;",
-                null
-            );
+            if (busqueda == null)
+            {
+                busqueda = "";
+            }
+            
+            DataTable ds = DatabaseHelper.ExecuteStoreProcedure("SP_ObtenerUsuariosAll",new List<SqlParameter>(){
+                new SqlParameter("@busqueda", busqueda),
+            });
+            
             List<Usuario> listadoUsuarios = new List<Usuario>();
 
             foreach (DataRow row in ds.Rows)
@@ -50,10 +62,17 @@ namespace proyectoDB2_condominios.Controllers
 
         public IActionResult Agregar()
         {
-            ViewBag.usuario = JsonConvert.DeserializeObject(HttpContext.Session.GetString("usuario"));
-            ViewBag.rolesUsuarios = CargarRolesUsuarios();
-            ViewBag.condominios = CargarCondominios();
-            return View();
+            if (String.IsNullOrEmpty(HttpContext.Session.GetString("usuario")))
+            {
+                return RedirectToAction("Index","Login");
+            }
+            else
+            {
+                ViewBag.usuario = JsonConvert.DeserializeObject(HttpContext.Session.GetString("usuario"));
+                ViewBag.rolesUsuarios = CargarRolesUsuarios();
+                ViewBag.condominios = CargarCondominios();
+                return View();
+            }
         }
 
         private List<RolUsuario> CargarRolesUsuarios()
@@ -139,27 +158,27 @@ namespace proyectoDB2_condominios.Controllers
                     new SqlParameter("@pIdVivienda", selectViviendas)
                 }
             );
-            
+
             // ENVIAR EMAIL DE CONFIRMACION
             /*ktvnsukeryuvfzla*/
-            
+
             var emailOwner = "testmm311@gmail.com";
             var emailPassword = "ktvnsukeryuvfzla";
 
             using (MailMessage mm = new MailMessage(emailOwner, txtEmail))
             {
                 mm.Subject = "Confirmaci�n de cuenta";
-                
+
                 mm.IsBodyHtml = true;
 
-                
-                using (var sr = new StreamReader("wwwroot/html/welcome.txt"))
+
+                using (var sr = new StreamReader("wwwroot/html/welcome_mail.txt"))
                 {
                     // Read the stream as a string, and write the string to the console.
                     string body = sr.ReadToEnd()
                         .Replace("@CLIENTNAME", txtNombre)
-                        .Replace("@ClientPassword",txtPassword)
-                        .Replace("@ClientEmail",txtEmail);
+                        .Replace("@ClientPassword", txtPassword)
+                        .Replace("@ClientEmail", txtEmail);
 
                     mm.Body = body;
                 }
@@ -173,17 +192,24 @@ namespace proyectoDB2_condominios.Controllers
                 smtp.Port = 587;
                 smtp.Send(mm);
             }
-            
+
             // FIN EMAL CONFIRMATION
 
             return RedirectToAction("Index", "Usuarios");
         }
         public ActionResult Editar(int idPersona)
         {
-            ViewBag.usuario = JsonConvert.DeserializeObject(HttpContext.Session.GetString("usuario"));
-            ViewBag.rolesUsuarios = CargarRolesUsuarios();
-            ViewBag.usuario = CargarUsuario(idPersona);
-            return View();
+            if (String.IsNullOrEmpty(HttpContext.Session.GetString("usuario")))
+            {
+                return RedirectToAction("Index","Login");
+            }
+            else
+            {
+                ViewBag.usuario = JsonConvert.DeserializeObject(HttpContext.Session.GetString("usuario"));
+                ViewBag.rolesUsuarios = CargarRolesUsuarios();
+                ViewBag.usuarioEdit = CargarUsuario(idPersona);
+                return View();
+            }
         }
 
         private Usuario CargarUsuario(int idPersona)

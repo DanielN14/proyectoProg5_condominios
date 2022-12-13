@@ -5,39 +5,45 @@
 @await Html.PartialAsync("AccesoUsuarios")
 
 <div class="container">
-    <form class="form" asp-controller="Vehiculos" asp-action="AgregarVehiculo" enctype="multipart/form-data">
+    <form class="form" asp-controller="Vehiculos" asp-action="AgregarVehiculoCondomino" enctype="multipart/form-data">
         <div style="border: 1px solid #d5d7dd; padding: 30px; border-radius: 15px;">
             <div class="row">
-                <div class="col-lg-9 col-md-8 col-sm-12">
-                    <div class="text-center">
-                        <h4>Creación de Vehiculos</h4>
-                        <hr>
+                <div class="text-center">
+                    <h4>Creación de Vehiculos</h4>
+                    <hr>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-lg-2 col-md-12 col-sm-12">
+                        <label for="placa" class="form-label">Placa</label>
+                        <input type="text" class="form-control form-control-sm mb-2" name="placa" required />
                     </div>
-                    <div class="row justify-content-center">
-                        <div class="col-lg-4 col-md-12 col-sm-12">
-                            <label for="placa" class="form-label">Placa</label>
-                            <input type="text" class="form-control form-control-sm mb-2" name="placa" required />
-                        </div>
-                        <div class="col-lg-4 col-md-6 col-sm-12">
-                            <label for="marca" class="form-label">Marca</label>
-                            <input type="text" class="form-control form-control-sm mb-2" name="marca" required />
-                        </div>
-                        <div class="col-lg-4 col-md-6 col-sm-12">
-                            <label for="modelo" class="form-label">Modelo</label>
-                            <input type="text" class="form-control form-control-sm mb-2" name="modelo" />
+                    <div class="col-lg-5 col-md-6 col-sm-12">
+                        <label for="marca" class="form-label">Marca</label>
+                        <input type="text" class="form-control form-control-sm mb-2" name="marca" required />
+                    </div>
+                    <div class="col-lg-5 col-md-6 col-sm-12">
+                        <label for="modelo" class="form-label">Modelo</label>
+                        <input type="text" class="form-control form-control-sm mb-2" name="modelo" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                        <label for="color" class="form-label">Color</label>
+                        <input type="text" class="form-control form-control-sm mb-2" name="color" required />
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12 align-self-center mb-4">
+                        <div class="form-check form-switch">
+                            <label class="form-check-label" for="switchAcceso">Acceso libre de entrada.</label>
+                            <input class="form-check-input" type="checkbox" role="switch" name="switchAcceso"
+                                id="switchAcceso" value="0">
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-4 col-md-6 col-sm-12">
-                            <label for="color" class="form-label">Color</label>
-                            <input type="text" class="form-control form-control-sm mb-2" name="color" required />
-                        </div>
-                    </div>
-                    <br>
-                    <div class="form-group float-end">
-                        <div class="col-12">
-                            <button class="btn btn-white" type="reset">Limpiar</button>
-                            <button class="btn btn-success" type="submit">Guardar</button>
+                    <div class="col-lg-4 col-md-12 col-sm-12 align-self-center">
+                        <div class="form-group">
+                            <div class="col-12">
+                                <button class="btn btn-white float-end" type="reset">Limpiar</button>
+                                <button class="btn btn-success float-end" type="submit">Guardar</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -46,3 +52,15 @@
     </form>
 </div>
 
+@section Scripts
+{
+<script type="text/javascript">
+    $("#switchAcceso").change(function () {
+        if ($(this).prop("checked")) {
+            $(this).val(1);
+        } else {
+            $(this).val(0);
+        }
+    });
+</script>
+}

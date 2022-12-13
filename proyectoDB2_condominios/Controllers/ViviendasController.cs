@@ -12,9 +12,16 @@ namespace proyectoDB2_condominios.Controllers
     {
         public ActionResult Index(int idProyectoHabitacional)
         {
-            ViewBag.usuario =JsonConvert.DeserializeObject(HttpContext.Session.GetString("usuario"));
-            ViewBag.viviendas = CargarViviendas(idProyectoHabitacional);
-            return View();
+            if (String.IsNullOrEmpty(HttpContext.Session.GetString("usuario")))
+            {
+                return RedirectToAction("Index","Login");
+            }
+            else
+            {
+                ViewBag.usuario =JsonConvert.DeserializeObject(HttpContext.Session.GetString("usuario"));
+                ViewBag.viviendas = CargarViviendas(idProyectoHabitacional);
+                return View();
+            }
         }
 
         public static List<Vivienda> CargarViviendas(int idProyectoHabitacional)
@@ -55,9 +62,16 @@ namespace proyectoDB2_condominios.Controllers
 
         public ActionResult Agregar()
         {
-            ViewBag.usuario =JsonConvert.DeserializeObject(HttpContext.Session.GetString("usuario"));
-            ViewBag.condominios = CargarCondominios();
-            return View();
+            if (String.IsNullOrEmpty(HttpContext.Session.GetString("usuario")))
+            {
+                return RedirectToAction("Index","Login");
+            }
+            else
+            {
+                ViewBag.usuario =JsonConvert.DeserializeObject(HttpContext.Session.GetString("usuario"));
+                ViewBag.condominios = CargarCondominios();
+                return View();
+            }
         }
 
         public ActionResult AgregarVivienda(string numeroVivienda, string descripcion, int numeroHabitaciones, int cochera, int selectCondominio)
@@ -80,10 +94,17 @@ namespace proyectoDB2_condominios.Controllers
 
         public ActionResult Editar(int idVivienda)
         {
-            ViewBag.usuario =JsonConvert.DeserializeObject(HttpContext.Session.GetString("usuario"));
-            ViewBag.viviendas = CargarVivienda(idVivienda);
-            /* ViewBag.usuariosDD = SP_ObtenerUsuariosDDL(); */
-            return View();
+            if (String.IsNullOrEmpty(HttpContext.Session.GetString("usuario")))
+            {
+                return RedirectToAction("Index","Login");
+            }
+            else
+            {
+                ViewBag.usuario =JsonConvert.DeserializeObject(HttpContext.Session.GetString("usuario"));
+                ViewBag.viviendas = CargarVivienda(idVivienda);
+                /* ViewBag.usuariosDD = SP_ObtenerUsuariosDDL(); */
+                return View();
+            }
         }
 
         private List<Vivienda> CargarVivienda(int idVivienda)
